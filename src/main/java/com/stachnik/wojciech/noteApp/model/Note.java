@@ -15,6 +15,9 @@ public class Note {
     @NotBlank
     private String content;
 
+    @NotBlank
+    private String title;
+
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateAt;
@@ -39,5 +42,13 @@ public class Note {
 
     public void setUpdateAt(Date updateAt) {
         this.updateAt = updateAt;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }
