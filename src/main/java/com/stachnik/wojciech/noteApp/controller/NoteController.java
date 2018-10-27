@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@Controller
+@RestController
+@RequestMapping("/api")
 public class NoteController {
     @Autowired
     private NoteRepository noteRepository;
@@ -35,8 +36,8 @@ public class NoteController {
     }
 
     //update note by id
-    @PostMapping("/notes/{id}")
-    public Note updateOneNote(@PathVariable(value = "id")Long noteId, Note noteDetails){
+    @PutMapping("/notes/{id}")
+    public Note updateOneNote(@PathVariable(value = "id")Long noteId,@Valid @RequestBody Note noteDetails){
 
         Note note = noteRepository.findById(noteId).orElseThrow(()-> new ResourceNotFoundException("Note", "id", noteId));
 
@@ -47,8 +48,9 @@ public class NoteController {
 
     //delete note by id
     @DeleteMapping("/notes/{id}")
-    public ResponseEntity<?> deleteNote(@PathVariable(value = "id")Long noteId){
-        Note note = noteRepository.findById(noteId).orElseThrow(()-> new ResourceNotFoundException("Note", "id", noteId));
+    public ResponseEntity<?> deleteNote(@PathVariable(value = "id") Long noteId) {
+        Note note = noteRepository.findById(noteId).orElseThrow(() -> new ResourceNotFoundException("Note", "id", noteId));
+        noteRepository.delete(note);
         return ResponseEntity.ok().build();
     }
 }
